@@ -18,12 +18,12 @@
     "neon",
     "profile"
   ],
-  "author": "Abdellah Aarab",
+  "author": "DKN4.Hackers",
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^3.3.2"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   }
 }
