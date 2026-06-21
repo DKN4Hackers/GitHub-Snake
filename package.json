@@ -2,7 +2,6 @@
   "name": "github-snake",
   "version": "2.0.0",
   "description": "Animated GitHub contribution snake — neon glow, heatmap overlay, gamified ranks, multi-user",
-  "main": "server.js",
   "type": "module",
   "scripts": {
     "dev": "node server.js",
@@ -18,7 +17,7 @@
     "neon",
     "profile"
   ],
-  "author": "DKN4.Hackers",
+  "author": "Abdellah Aarab",
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^3.3.2"
