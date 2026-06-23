@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Snake — Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-neon: #00ffff;
+            --accent-cyber: #ff00aa;
+            --accent-ocean: #64ffda;
+            --accent-tokyo: #7aa2f7;
+            --gold: #ffd700;
+            --silver: #d0d0d0;
+            --bronze: #cd7f32;
+        }
+        html, body {
+            scroll-behavior: smooth !important;
+        }
+
+        * { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Navbar */
+        .navbar-custom {
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--accent-neon) !important;
+            letter-spacing: -0.5px;
+        }
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: var(--accent-neon) !important; }
+
+        /* Hero */
+        .hero-section {
+            background: linear-gradient(135deg, #0d1117 0%, #0a0010 50%, #000011 100%);
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,255,0.03) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ffff, #7aa2f7, #ff00aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            max-width: 600px;
+        }
+        .badge-custom {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: var(--accent-neon);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Cards */
+        .card-custom {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .card-custom:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--accent);
+        }
+        .card-header-custom {
+            background: transparent;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: #010409;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #e6edf3;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block .comment { color: #8b949e; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .func { color: #d2a8ff; }
+        .code-block .tag { color: #7ee787; }
+        .code-block .attr { color: #79c0ff; }
+
+        /* Theme swatches */
+        .theme-swatch {
+            width: 100%;
+            height: 60px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .theme-swatch:hover { border-color: var(--accent); transform: scale(1.02); }
+        .theme-swatch.active { border-color: var(--accent-neon); box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+        .theme-label {
+            position: absolute;
+            bottom: 4px;
+            left: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Rank badges */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: 1px solid;
+        }
+        .rank-rookie { color: #667788; border-color: #667788; background: rgba(102,119,136,0.1); }
+        .rank-bronze { color: var(--bronze); border-color: var(--bronze); background: rgba(205,127,50,0.1); }
+        .rank-silver { color: var(--silver); border-color: var(--silver); background: rgba(208,208,208,0.1); }
+        .rank-gold { color: var(--gold); border-color: var(--gold); background: rgba(255,215,0,0.1); }
+        .rank-diamond { color: #b9f2ff; border-color: #b9f2ff; background: rgba(185,242,255,0.1); }
+        .rank-legendary {
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 3s linear infinite;
+            border-color: #ff00aa;
+        }
+        @keyframes rainbow { to { background-position: 200% center; } }
+
+        /* Section headers */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Preview iframe */
+        .preview-frame {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+
+        /* Footer */
+        .footer-custom {
+            background: #010409;
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Glow effects */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0,255,255,0.3);
+        }
+        .glow-box {
+            box-shadow: 0 0 30px rgba(0,255,255,0.05);
+        }
+
+        /* Table styling */
+        .table-custom {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .table-custom thead th {
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-custom td, .table-custom th {
+            border-color: var(--border-color);
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        .table-custom tbody tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .hero-section { padding: 80px 0 60px; }
+        }
+
+        /* Copy button */
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="bi bi-github me-2"></i>GitHub Snake</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#quickstart">Quick Start</a></li>
+                <li class="nav-item"><a class="nav-link" href="#api">API</a></li>
+                <li class="nav-item"><a class="nav-link" href="#themes">Themes</a></li>
+                <li class="nav-item"><a class="nav-link" href="#ranking">Ranking</a></li>
+                <li class="nav-item"><a class="nav-link" href="#multiuser">Multi-User</a></li>
+                <li class="nav-item"><a class="nav-link" href="#selfhost">Self-Host</a></li>
+                <li class="nav-item"><a class="nav-link" href="#animation">Animation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero-section">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="badge-custom mb-4">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                    Pure SVG — No Canvas — No JS Runtime
+                </div>
+                <h1 class="hero-title mb-4">GitHub Snake</h1>
+                <p class="hero-subtitle mb-4">
+                    An ultra-smooth, neon-glowing animated SVG snake that devours your GitHub contribution heatmap.
+                    Built with pure SMIL animation — works in <code>&lt;img&gt;</code> tags everywhere.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mb-5" >
+                    <a href="#quickstart" class="btn btn-lg px-4" style="background: linear-gradient(135deg, #00ffff, #7aa2f7); color: #000; font-weight: 700; border: none;">
+                        <i class="bi bi-rocket-takeoff me-2"></i>Get Started
+                    </a>
+                    <a href="https://github.com/DKN4Hackers/GitHub-Snake" target="_blank" class="btn btn-lg btn-outline-light px-4" style="border-color: var(--border-color); color: var(--text-primary);">
+                        <i class="bi bi-github me-2"></i>View Source
+                    </a>
+                </div>
+                <div class="d-flex gap-4 text-secondary" style="font-size: 0.9rem;">
+                    <span><i class="bi bi-check-circle-fill text-success me-1"></i> Node.js ≥18</span>
+                    <span><i class="bi bi-check-circle-fill text-success me-1"></i> ES Modules</span>
+                    <span><i class="bi bi-check-circle-fill text-success me-1"></i> MIT License</span>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-5 mt-lg-0">
+                <div class="card-custom p-3 glow-box">
+                    <div class="text-center mb-3">
+                        <span class="text-secondary" style="font-size: 0.8rem;">Live Preview — DKN4Hackers</span>
+                    </div>
+                    <img src="https://git-hub-snake.vercel.app/api/snake?username=DKN4Hackers&theme=neon" alt="snake" class="img-fluid rounded-3" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-stars text-warning"></i> Features</h2>
+        <p class="text-secondary mb-5">Everything that makes GitHub Snake stand out from the crowd.</p>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;background:rgba(0,255,255,0.1);">
+                            <i class="bi bi-bezier2" style="color:var(--accent-neon);font-size:1.3rem;"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Real Snake Path</h5>
+                    </div>
+                    <p class="text-secondary mb-0">Serpentine Hamiltonian path traverses all 53 × 7 = 371 contribution cells in a boustrophedon pattern.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;background:rgba(255,0,170,0.1);">
+                            <i class="bi bi-lightning-charge-fill" style="color:var(--accent-cyber);font-size:1.3rem;"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Neon Glow + Trails</h5>
+                    </div>
+                    <p class="text-secondary mb-0">3-layer SVG filter stack with tight core glow, medium halo, and wide bloom — all animated seamlessly.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;background:rgba(100,255,218,0.1);">
+                            <i class="bi bi-grid-3x3-gap-fill" style="color:var(--accent-ocean);font-size:1.3rem;"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Heatmap Overlay</h5>
+                    </div>
+                    <p class="text-secondary mb-0">Contribution intensity (level 0–4) rendered as colored cells beneath the snake in real-time.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;background:rgba(255,215,0,0.1);">
+                            <i class="bi bi-trophy-fill" style="color:var(--gold);font-size:1.3rem;"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Gamified Ranking</h5>
+                    </div>
+                    <p class="text-secondary mb-0">6 tiers from Rookie to Legendary, shown as an animated hexagon badge based on your yearly contributions.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;background:rgba(122,162,247,0.1);">
+                            <i class="bi bi-people-fill" style="color:var(--accent-tokyo);font-size:1.3rem;"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Multi-User Mode</h5>
+                    </div>
+                    <p class="text-secondary mb-0">Up to 4 snakes on the same grid, each phase-staggered around the loop with unique colors.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;background:rgba(88,166,255,0.1);">
+                            <i class="bi bi-speedometer2" style="color:var(--accent);font-size:1.3rem;"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold">Ultra-Smooth</h5>
+                    </div>
+                    <p class="text-secondary mb-0">Pure SMIL SVG animation — no JavaScript, no Canvas, works in <code>&lt;img&gt;</code> tags everywhere.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Quick Start -->
+<section id="quickstart" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-rocket-takeoff text-success"></i> Quick Start</h2>
+        <p class="text-secondary mb-4">Add this to your GitHub profile <code>README.md</code> (replace <code>YOUR_USERNAME</code>):</p>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card-custom">
+                    <div class="card-header-custom"><i class="bi bi-markdown"></i> Markdown</div>
+                    <div class="p-3 position-relative">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="comment">&lt;!-- Neon theme --&gt;</span>
+![snake](https://git-hub-snake.vercel.app/api/snake?username=YOUR_USERNAME&theme=neon)
+
+<span class="comment">&lt;!-- Dark theme (GitHub default) --&gt;</span>
+![snake](https://git-hub-snake.vercel.app/api/snake?username=YOUR_USERNAME&theme=dark)
+
+<span class="comment">&lt;!-- Cyberpunk --&gt;</span>
+![snake](https://git-hub-snake.vercel.app/api/snake?username=YOUR_USERNAME&theme=cyberpunk)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-custom">
+                    <div class="card-header-custom"><i class="bi bi-code-slash"></i> HTML (Recommended)</div>
+                    <div class="p-3 position-relative">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="tag">&lt;picture&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"https://git-hub-snake.vercel.app/api/snake?username=YOUR_USERNAME&theme=neon"</span>
+       <span class="attr">alt</span>=<span class="string">"snake"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/picture&gt;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h4 class="fw-bold mb-3"><i class="bi bi-eye me-2"></i>Live Preview</h4>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card-custom p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold">DKN4Hackers</span>
+                            <span class="badge" style="background: var(--accent-neon); color: #000;">neon</span>
+                        </div>
+                        <img src="https://git-hub-snake.vercel.app/api/snake?username=DKN4Hackers&theme=neon" alt="DKN4Hackers" class="img-fluid rounded-3" style="width:100%;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-custom p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold">abdellahaarab</span>
+                            <span class="badge" style="background: var(--accent-cyber); color: #fff;">cyberpunk</span>
+                        </div>
+                        <img src="https://git-hub-snake.vercel.app/api/snake?username=abdellahaarab&theme=cyberpunk" alt="abdellahaarab" class="img-fluid rounded-3" style="width:100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- API Reference -->
+<section id="api" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-globe text-primary"></i> API Reference</h2>
+        <div class="card-custom mb-4">
+            <div class="card-header-custom"><i class="bi bi-link-45deg"></i> Endpoint</div>
+            <div class="p-4">
+                <div class="code-block d-inline-block px-4 py-2" style="font-size:1rem;">
+                    <span class="keyword">GET</span> <span class="string">/api/snake</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-custom">
+            <div class="card-header-custom"><i class="bi bi-list-ul"></i> Query Parameters</div>
+            <div class="p-0">
+                <table class="table table-custom mb-0">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="font-mono">username</code></td>
+                            <td><span class="badge bg-secondary">string</span></td>
+                            <td class="text-secondary">—</td>
+                            <td>GitHub username (single-user mode)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="font-mono">users</code></td>
+                            <td><span class="badge bg-secondary">string</span></td>
+                            <td class="text-secondary">—</td>
+                            <td>Comma-separated usernames, max 4 (multi-user mode)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="font-mono">theme</code></td>
+                            <td><span class="badge bg-secondary">string</span></td>
+                            <td><code class="font-mono">dark</code></td>
+                            <td>One of <code>dark</code>, <code>neon</code>, <code>tokyo</code>, <code>cyberpunk</code>, <code>ocean</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p class="text-secondary mt-3"><i class="bi bi-info-circle me-1"></i> <code>username</code> and <code>users</code> are mutually exclusive. Use one or the other.</p>
+
+        <h4 class="fw-bold mt-5 mb-3">Examples</h4>
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="code-block position-relative">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="comment"># Single user, neon theme</span>
+/api/snake?username=DKN4Hackers&theme=neon
+
+<span class="comment"># Single user, default dark theme</span>
+/api/snake?username=torvalds
+
+<span class="comment"># Multi-user — 3 snakes</span>
+/api/snake?users=DKN4Hackers,torvalds,gvanrossum&theme=tokyo
+
+<span class="comment"># Ocean theme</span>
+/api/snake?username=DKN4Hackers&theme=ocean
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-custom h-100 p-4 d-flex flex-column justify-content-center">
+                    <h6 class="fw-bold mb-3">Try it out:</h6>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text font-mono bg-dark text-light border-secondary">https://git-hub-snake.vercel.app/api/snake?username=</span>
+                        <input type="text" class="form-control bg-dark text-light border-secondary font-mono" id="tryUsername" placeholder="YOUR_USERNAME" value="DKN4Hackers">
+                    </div>
+                    <select class="form-select bg-dark text-light border-secondary mb-3 font-mono" id="tryTheme">
+                        <option value="neon">neon</option>
+                        <option value="dark">dark</option>
+                        <option value="tokyo">tokyo</option>
+                        <option value="cyberpunk">cyberpunk</option>
+                        <option value="ocean">ocean</option>
+                    </select>
+                    <button class="btn btn-primary w-100" onclick="updatePreview()">
+                        <i class="bi bi-play-fill me-1"></i> Generate Preview
+                    </button>
+                    <div id="previewContainer" class="mt-3 text-center" style="display:none;">
+                        <img id="previewImg" src="" alt="preview" class="img-fluid rounded-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Themes -->
+<section id="themes" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-palette-fill" style="color:var(--accent-cyber)"></i> Themes</h2>
+        <p class="text-secondary mb-5">5 handcrafted color palettes. Each theme provides 5 snake colors so multi-user snakes are always visually distinct.</p>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100">
+                    <div class="p-3">
+                        <div class="theme-swatch mb-3" style="background: linear-gradient(135deg, #0d1117, #161b22);">
+                            <span class="theme-label" style="color:#58a6ff;">dark</span>
+                        </div>
+                        <h5 class="fw-bold">Dark</h5>
+                        <p class="text-secondary small mb-2">GitHub default palette</p>
+                        <div class="font-mono small">
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Background</span> <span>#0d1117</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Empty cell</span> <span>#161b22</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Snake</span> <span style="color:#58a6ff">#58a6ff</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Max cell</span> <span style="color:#39d353">#39d353</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100">
+                    <div class="p-3">
+                        <div class="theme-swatch mb-3" style="background: linear-gradient(135deg, #000011, #07071a); border-color: var(--accent-neon);">
+                            <span class="theme-label" style="color:var(--accent-neon);">neon</span>
+                        </div>
+                        <h5 class="fw-bold">Neon</h5>
+                        <p class="text-secondary small mb-2">Deep black + electric colors</p>
+                        <div class="font-mono small">
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Background</span> <span>#000011</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Empty cell</span> <span>#07071a</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Snake</span> <span style="color:var(--accent-neon)">#00ffff</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Max cell</span> <span style="color:#00aa50">#00aa50</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100">
+                    <div class="p-3">
+                        <div class="theme-swatch mb-3" style="background: linear-gradient(135deg, #1a1b26, #24283b);">
+                            <span class="theme-label" style="color:var(--accent-tokyo);">tokyo</span>
+                        </div>
+                        <h5 class="fw-bold">Tokyo</h5>
+                        <p class="text-secondary small mb-2">Tokyo Night editor theme</p>
+                        <div class="font-mono small">
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Background</span> <span>#1a1b26</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Empty cell</span> <span>#24283b</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Snake</span> <span style="color:var(--accent-tokyo)">#7aa2f7</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Max cell</span> <span style="color:#4060cf">#4060cf</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100">
+                    <div class="p-3">
+                        <div class="theme-swatch mb-3" style="background: linear-gradient(135deg, #0a0010, #100020);">
+                            <span class="theme-label" style="color:var(--accent-cyber);">cyberpunk</span>
+                        </div>
+                        <h5 class="fw-bold">Cyberpunk</h5>
+                        <p class="text-secondary small mb-2">Black + purple/magenta</p>
+                        <div class="font-mono small">
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Background</span> <span>#0a0010</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Empty cell</span> <span>#100020</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Snake</span> <span style="color:var(--accent-cyber)">#ff00aa</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Max cell</span> <span style="color:#8800cc">#8800cc</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom h-100">
+                    <div class="p-3">
+                        <div class="theme-swatch mb-3" style="background: linear-gradient(135deg, #020c1b, #0a1628);">
+                            <span class="theme-label" style="color:var(--accent-ocean);">ocean</span>
+                        </div>
+                        <h5 class="fw-bold">Ocean</h5>
+                        <p class="text-secondary small mb-2">Deep ocean blues and teals</p>
+                        <div class="font-mono small">
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Background</span> <span>#020c1b</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Empty cell</span> <span>#0a1628</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Snake</span> <span style="color:var(--accent-ocean)">#64ffda</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Max cell</span> <span style="color:#2d6fe0">#2d6fe0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Ranking -->
+<section id="ranking" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-trophy-fill" style="color:var(--gold)"></i> Ranking System</h2>
+        <p class="text-secondary mb-4">Your rank is determined by your total GitHub contributions in the last year. It appears as an animated hexagon badge in the top-right of the SVG.</p>
+
+        <div class="card-custom">
+            <div class="p-0">
+                <table class="table table-custom mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Rank</th>
+                            <th>Threshold</th>
+                            <th>Color</th>
+                            <th>Badge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="rank-badge rank-rookie">0</span></td>
+                            <td class="fw-bold">ROOKIE</td>
+                            <td class="text-secondary">&lt; 50</td>
+                            <td><code class="font-mono">#667788</code></td>
+                            <td class="font-mono text-secondary">·</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-bronze">1</span></td>
+                            <td class="fw-bold">BRONZE</td>
+                            <td class="text-secondary">≥ 50</td>
+                            <td><code class="font-mono" style="color:var(--bronze)">#cd7f32</code></td>
+                            <td class="font-mono" style="color:var(--bronze)">▲</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-silver">2</span></td>
+                            <td class="fw-bold">SILVER</td>
+                            <td class="text-secondary">≥ 200</td>
+                            <td><code class="font-mono" style="color:var(--silver)">#d0d0d0</code></td>
+                            <td class="font-mono" style="color:var(--silver)">●</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-gold">3</span></td>
+                            <td class="fw-bold">GOLD</td>
+                            <td class="text-secondary">≥ 500</td>
+                            <td><code class="font-mono" style="color:var(--gold)">#ffd700</code></td>
+                            <td class="font-mono" style="color:var(--gold)">★</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-diamond">4</span></td>
+                            <td class="fw-bold">DIAMOND</td>
+                            <td class="text-secondary">≥ 1 000</td>
+                            <td><code class="font-mono" style="color:#b9f2ff">#b9f2ff</code></td>
+                            <td class="font-mono" style="color:#b9f2ff">◆</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-legendary">5</span></td>
+                            <td class="fw-bold">LEGENDARY</td>
+                            <td class="text-secondary">≥ 2 500</td>
+                            <td><span class="rank-legendary fw-bold">rainbow</span></td>
+                            <td class="font-mono" style="color:#ff00aa">✦</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p class="text-secondary mt-3"><i class="bi bi-info-circle me-1"></i> <strong>LEGENDARY</strong> gets a rainbow-animated gradient fill and cycling stroke color on the badge.</p>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Multi-User -->
+<section id="multiuser" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-people-fill" style="color:var(--accent-tokyo)"></i> Multi-User Mode</h2>
+        <p class="text-secondary mb-4">Combine up to <strong>4 GitHub profiles</strong> into one animated SVG. Each snake gets a unique color, evenly-spaced phase offset, and immediate visibility.</p>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card-custom">
+                    <div class="card-header-custom"><i class="bi bi-code-slash"></i> Usage</div>
+                    <div class="p-3 position-relative">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="comment"># Multi-user — 3 snakes on one grid</span>
+/api/snake?users=DKN4Hackers,torvalds,gvanrossum&theme=tokyo
+
+<span class="comment"># Full URL</span>
+https://git-hub-snake.vercel.app/api/snake?users=DKN4Hackers,abdellahaarab&theme=neon
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-dark mt-3 border-secondary" style="background: var(--bg-card);">
+                    <i class="bi bi-info-circle-fill me-2 text-info"></i>
+                    The <strong>heatmap</strong> always reflects the <strong>first user's</strong> contribution data. Stats in the footer also show the first user's numbers. Snake colors cycle from the theme's <code>snakeColors</code> array.
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card-custom p-3 h-100">
+                    <div class="text-center mb-3">
+                        <span class="text-secondary" style="font-size: 0.8rem;">Multi-User Preview</span>
+                    </div>
+                    <img src="https://git-hub-snake.vercel.app/api/snake?users=DKN4Hackers,abdellahaarab&theme=neon" alt="multi-user" class="img-fluid rounded-3" style="width:100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Self-Hosting -->
+<section id="selfhost" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-hdd-rack-fill text-secondary"></i> Self-Hosting</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card-custom">
+                    <div class="card-header-custom"><i class="bi bi-terminal"></i> Run Locally</div>
+                    <div class="p-3 position-relative">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="func">git clone</span> https://github.com/DKN4Hackers/GitHub-Snake.git
+<span class="func">cd</span> github-snake
+<span class="func">npm install</span>
+<span class="func">npm start</span>
+<span class="comment"># → http://localhost:3000</span>
+
+<span class="comment"># Custom port:</span>
+<span class="attr">PORT</span>=4000 <span class="func">npm start</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-custom">
+                    <div class="card-header-custom"><i class="bi bi-cloud-arrow-up"></i> Deploy to Vercel</div>
+                    <div class="p-3 position-relative">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="func">npm install -g vercel</span>
+<span class="func">vercel</span>
+
+<span class="comment"># Then use your Vercel URL:</span>
+![snake](https://your-app.vercel.app/api/snake?username=YOUR_USERNAME&theme=neon)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-custom mt-4">
+            <div class="card-header-custom"><i class="bi bi-diagram-3"></i> Project Architecture</div>
+            <div class="p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="code-block" style="font-size:0.8rem;">
+github-snake/
+├── api/
+│   └── snake.js          <span class="comment">← HTTP handler</span>
+├── lib/
+│   ├── scraper.js        <span class="comment">← GitHub HTML parser</span>
+│   ├── snake.js          <span class="comment">← Path builder + rank</span>
+│   ├── svg.js            <span class="comment">← SVG renderer</span>
+│   └── themes.js         <span class="comment">← Color definitions</span>
+├── utils/
+│   └── cache.js          <span class="comment">← In-memory cache</span>
+├── server.js             <span class="comment">← Local dev server</span>
+└── package.json
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column justify-content-center">
+                        <h6 class="fw-bold mb-3">Data Flow</h6>
+                        <div class="d-flex flex-column gap-2 font-mono small">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">1</span>
+                                <span>Request → <code>api/snake.js</code></span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">2</span>
+                                <span>Cache check → <code>utils/cache.js</code></span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">3</span>
+                                <span>Scrape → <code>lib/scraper.js</code></span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">4</span>
+                                <span>Path + Rank → <code>lib/snake.js</code></span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">5</span>
+                                <span>Render → <code>lib/svg.js</code></span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">6</span>
+                                <span>SVG Response</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Animation -->
+<section id="animation" class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-film" style="color:var(--accent-cyber)"></i> How the Animation Works</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card-custom h-100">
+                    <div class="card-header-custom"><i class="bi bi-bezier"></i> Serpentine Path</div>
+                    <div class="p-4">
+                        <p class="text-secondary">The snake follows a <strong>boustrophedon (serpentine) Hamiltonian path</strong> through the 53 × 7 contribution grid:</p>
+                        <div class="code-block text-center my-3" style="font-size:0.8rem;">
+col 0 ↓   col 1 ↑   col 2 ↓   col 3 ↑  …
+(0,0)     (1,6)     (2,0)     (3,6)
+(0,1)     (1,5)     (2,1)     (3,5)
+ …         …         …         …
+(0,6)     (1,0)     (2,6)     (3,0)
+                        </div>
+                        <div class="font-mono small">
+                            <div class="d-flex justify-content-between mb-1"><span class="text-secondary">Total path length</span> <span>4 810 px</span></div>
+                            <div class="d-flex justify-content-between mb-1"><span class="text-secondary">Animation cycle</span> <span>30 seconds</span></div>
+                            <div class="d-flex justify-content-between"><span class="text-secondary">Speed</span> <span>≈ 160 px/s</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-custom h-100">
+                    <div class="card-header-custom"><i class="bi bi-layers"></i> 3-Layer Neon Trail</div>
+                    <div class="p-4">
+                        <p class="text-secondary">Each snake is rendered as three stacked <code>&lt;path&gt;</code> elements sharing the same grid path:</p>
+                        <table class="table table-custom" style="font-size:0.85rem;">
+                            <thead>
+                                <tr><th>Layer</th><th>Width</th><th>Opacity</th><th>Dash</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Outer glow</td><td>10 px</td><td>0.09</td><td><code>390 4420</code></td></tr>
+                                <tr><td>Inner glow</td><td>6 px</td><td>0.20</td><td><code>260 4550</code></td></tr>
+                                <tr><td>Snake body</td><td>3 px</td><td>1.00</td><td><code>130 4680</code></td></tr>
+                            </tbody>
+                        </table>
+                        <p class="text-secondary small mb-0">Lag is implemented with negative SMIL <code>begin</code> offsets so trails are visible from the first frame.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-custom h-100">
+                    <div class="card-header-custom"><i class="bi bi-brightness-high"></i> Glowing Head</div>
+                    <div class="p-4">
+                        <p class="text-secondary">A <code>&lt;circle r="5.5"&gt;</code> follows the path with <code>&lt;animateMotion&gt;</code> + <code>&lt;mpath&gt;</code>, leading the body by exactly <code>SNAKE_LEN / SPEED ≈ 0.811 s</code>.</p>
+                        <p class="text-secondary mb-0">Two stacked <code>feGaussianBlur</code> passes (stdDeviation 2.5 and 8) create a dramatic flare effect.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-custom h-100">
+                    <div class="card-header-custom"><i class="bi bi-infinity"></i> Seamless Looping</div>
+                    <div class="p-4">
+                        <p class="text-secondary"><code>stroke-dasharray</code> is set so the <strong>pattern period equals the path length</strong> (<code>dash + gap = 4810</code>).</p>
+                        <p class="text-secondary mb-0">Animating <code>stroke-dashoffset</code> from <code>0</code> to <code>-4810</code> over 30 s completes exactly one period → frame-perfect seamless loop.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-custom mt-4">
+            <div class="card-header-custom"><i class="bi bi-funnel"></i> SVG Filter Glow</div>
+            <div class="p-3 position-relative">
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="tag">&lt;filter</span> <span class="attr">id</span>=<span class="string">"g0"</span> <span class="attr">x</span>=<span class="string">"-150%"</span> <span class="attr">y</span>=<span class="string">"-150%"</span> <span class="attr">width</span>=<span class="string">"400%"</span> <span class="attr">height</span>=<span class="string">"400%"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;feGaussianBlur</span> <span class="attr">in</span>=<span class="string">"SourceGraphic"</span> <span class="attr">stdDeviation</span>=<span class="string">"1.5"</span> <span class="attr">result</span>=<span class="string">"b1"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;feGaussianBlur</span> <span class="attr">in</span>=<span class="string">"SourceGraphic"</span> <span class="attr">stdDeviation</span>=<span class="string">"5"</span>   <span class="attr">result</span>=<span class="string">"b2"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;feMerge&gt;</span>
+    <span class="tag">&lt;feMergeNode</span> <span class="attr">in</span>=<span class="string">"b2"</span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;feMergeNode</span> <span class="attr">in</span>=<span class="string">"b1"</span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;feMergeNode</span> <span class="attr">in</span>=<span class="string">"SourceGraphic"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;/feMerge&gt;</span>
+<span class="tag">&lt;/filter&gt;</span>
+                </div>
+            </div>
+            <div class="p-3 text-secondary small">
+                <i class="bi bi-info-circle me-1"></i> Stacking <code>SourceGraphic</code> on top of the blurred copies creates the classic neon look: bright solid core with a diffuse halo.
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Caching -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="section-title"><i class="bi bi-clock-history text-info"></i> Caching</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card-custom p-4 h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-memory me-2"></i>In-Memory Cache</h5>
+                    <p class="text-secondary">Responses are cached <strong>in-memory for 30 minutes</strong> per <code>username(s) + theme</code> key. Cache is stored in <code>utils/cache.js</code> using a <code>Map</code> with auto-expiry via <code>setTimeout</code>.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom p-4 h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-globe me-2"></i>HTTP Cache Headers</h5>
+                    <p class="text-secondary">Downstream HTTP clients also receive:</p>
+                    <div class="code-block" style="font-size:0.85rem;">
+Cache-Control: public, max-age=3600
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer-custom">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="fw-bold mb-2" style="color: var(--accent-neon);">GitHub Snake</h5>
+                <p class="text-secondary mb-0">Built with pure SVG · No canvas · No puppeteer · No headless browser</p>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <div class="d-flex gap-3 justify-content-md-end">
+                    <a href="https://github.com/DKN4Hackers/GitHub-Snake" target="_blank" class="text-secondary text-decoration-none hover-neon">
+                        <i class="bi bi-github me-1"></i> DKN4Hackers
+                    </a>
+                    <a href="https://github.com/abdellahaarab" target="_blank" class="text-secondary text-decoration-none hover-neon">
+                        <i class="bi bi-github me-1"></i> abdellahaarab
+                    </a>
+                </div>
+                <p class="text-secondary small mt-2 mb-0">MIT License — free to use, modify, and deploy.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function copyCode(btn) {
+        const block = btn.parentElement.querySelector('.code-block');
+        const text = block.innerText.replace('Copy', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            const original = btn.innerText;
+            btn.innerText = 'Copied!';
+            btn.style.background = '#238636';
+            btn.style.color = '#fff';
+            setTimeout(() => {
+                btn.innerText = original;
+                btn.style.background = '';
+                btn.style.color = '';
+            }, 2000);
+        });
+    }
+
+    function updatePreview() {
+        const user = document.getElementById('tryUsername').value || 'DKN4Hackers';
+        const theme = document.getElementById('tryTheme').value;
+        const container = document.getElementById('previewContainer');
+        const img = document.getElementById('previewImg');
+        img.src = `https://git-hub-snake.vercel.app/api/snake?username=${encodeURIComponent(user)}&theme=${theme}`;
+        container.style.display = 'block';
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const target = document.querySelector(this.getAttribute('href'));
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
